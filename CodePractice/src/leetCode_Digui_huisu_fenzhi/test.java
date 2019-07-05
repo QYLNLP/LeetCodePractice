@@ -1,0 +1,42 @@
+package leetCode_Digui_huisu_fenzhi;
+
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.List;
+
+class test {
+    public static List<List<Integer>> subsetsWithDup(int[] nums) {
+        Arrays.sort(nums);
+        List<List<Integer>> result = new ArrayList<>();
+        subsets(nums, 0, new ArrayList<>(), result);
+        return result;
+    }
+    
+    public static void subsets(int[] nums, int index, List<Integer> temp, List<List<Integer>> result) {
+    	result.add(new ArrayList<>(temp));
+    	if(index == nums.length){
+            return;
+        }
+        for(int i = index; i < nums.length; i++){
+            //与78题不同 之处就是添加一个判重
+            if(i > index && nums[i] == nums[i-1]){
+                continue;
+            }
+            temp.add(nums[i]);
+            //result.add(new ArrayList<>(temp));
+            subsets(nums, i + 1, temp, result);
+            temp.remove(temp.size() - 1);
+        }
+    }
+	public static void main(String args[]) {
+		int[] nums = {4,4,4,1,4};
+		List<List<Integer>> out = subsetsWithDup(nums);
+		System.out.println("共有种子集: "+out.size());
+		for(List<Integer> list : out) {
+			for(Integer s :list) {
+				System.out.print(s+", ");
+			}
+			System.out.println();
+		}
+		}
+}
